@@ -78,19 +78,25 @@ products_data = [
 
 
 # -------------------------
-# 5. Stock analysis
+# 5. Stock analysis & Functions
 # -------------------------
+
+def calculate_stock_value(product):
+    return product["price"] * product["quantity"]
+
+def is_product_in_stock(product):
+    return product["available"] and product["quantity"] > 0
 
 total_stock_value = 0
 
 for product in products_data:
-    stock_value = product["price"] * product["quantity"]
+    stock_value = calculate_stock_value(product)
 
     total_stock_value = total_stock_value + stock_value
 
     print(product["name"], "-", stock_value)
 
-    if product["available"] and product["quantity"] > 0:
+    if is_product_in_stock(product):
         print(product["name"], "is in stock")
 
 print("Total stock value:", total_stock_value)
