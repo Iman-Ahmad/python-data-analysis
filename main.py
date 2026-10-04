@@ -1,3 +1,6 @@
+import csv
+import pandas as pd
+
 # -------------------------
 # 1. Lists
 # -------------------------
@@ -7,16 +10,15 @@ products = ["Laptop", "Mouse", "Keyboard", "Monitor"]
 products.append("Headphones")
 products.append("Webcam")
 
-print("Products:")
-print(products)
+#print("Products:")
+#print(products)
 
-print("Number of products:", len(products))
+#print("Number of products:", len(products))
 
-print("Products with indexes:")
+#print("Products with indexes:")
 
 for index, product in enumerate(products):
     print(index, product)
-
 
 # -------------------------
 # 2. File Handling
@@ -33,8 +35,59 @@ try:
 
 except FileNotFoundError:
     print("The file was not found") 
+
 # -------------------------
-# 3. Conditions
+# 3. CSV File
+# -------------------------
+
+with open("products.csv", "r") as file:
+    reader = csv.DictReader(file)
+
+    for product in reader:
+        price = float(product["price"])
+        quantity = int(product["quantity"])
+
+        print(product["name"], "-", price * quantity)
+
+# -------------------------
+# 4. Pandas
+# -------------------------
+
+products_df = pd.read_csv("products.csv")
+
+print("Products DataFrame:")
+print(products_df)
+
+print("Columns:")
+print(products_df.columns)
+
+print("Data types:")
+print(products_df.dtypes)
+
+products_df["stock_value"] = (products_df["price"] * products_df["quantity"])
+
+print("DataFrame with stock value:")
+print(products_df)
+
+print(products_df.iloc[0])
+print(products_df.iloc[0:3])
+
+# -------------------------
+# 5. Pandas Filtering
+# -------------------------
+
+in_stock_products = products_df[products_df["quantity"] > 0]
+
+print("Products in stock:")
+print(in_stock_products)
+
+filtered_products = products_df[(products_df["quantity"] > 0) & (products_df["price"] > 50)]
+
+print("Products in stock and price above 50:")
+print(filtered_products)
+
+# -------------------------
+# 6. Conditions
 # -------------------------
 
 print("Searching for Laptop:")
@@ -45,9 +98,8 @@ for product in products:
     else:
         print(product, "is another product")
 
-
 # -------------------------
-# 4. Dictionary
+# 7. Dictionary
 # -------------------------
 
 product = {
@@ -57,17 +109,17 @@ product = {
     "available": True
 }
 
-print("Top product:", product)
+#print("Top product:", product)
 
-print("Product's name:", product["name"])
+#print("Product's name:", product["name"])
 
 product["quantity"] = 5
 
-print("Updated quantity:", product["quantity"])
+#print("Updated quantity:", product["quantity"])
 
 
 # -------------------------
-# 5. List of dictionaries
+# 8. List of dictionaries
 # -------------------------
 
 products_data = [
@@ -93,7 +145,7 @@ products_data = [
 
 
 # -------------------------
-# 6. Stock analysis & Functions
+# 9. Stock analysis & Functions
 # -------------------------
 
 def calculate_stock_value(product):
@@ -109,15 +161,15 @@ for product in products_data:
 
     total_stock_value = total_stock_value + stock_value
 
-    print(product["name"], "-", stock_value)
+    #print(product["name"], "-", stock_value)
 
     if is_product_in_stock(product):
         print(product["name"], "is in stock")
 
-print("Total stock value:", total_stock_value)
+#print("Total stock value:", total_stock_value)
 
 # -------------------------
-# 7. Write a stock report
+# 10. Write a stock report
 # -------------------------
 
 with open("stock_report.txt", "w") as file:
@@ -127,7 +179,7 @@ with open("stock_report.txt", "w") as file:
         file.write(f"{product['name']}: {stock_value}\n")
 
 # -------------------------
-# 8. append to a stock report
+# 11. append to a stock report
 # -------------------------
 
 with open("stock_report.txt", "a") as file:
