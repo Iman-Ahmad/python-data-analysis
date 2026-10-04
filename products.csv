@@ -1,7 +1,7 @@
-name,price,quantity,available
-Laptop,899.99,5,True
-Mouse,29.99,12,True
-Keyboard,59.99,0,False
-Monitor,249.99,4,True
-Headphones,79.99,8,True
-Webcam,49.99,0,False
+name,category,price,quantity,available
+Laptop,Electronics,899.99,5,True
+Mouse,Electronics,29.99,12,True
+Keyboard,Electronics,59.99,0,False
+Monitor,Electronics,249.99,4,True
+Headphones,Accessories,79.99,8,True
+Webcam,Accessories,49.99,0,False

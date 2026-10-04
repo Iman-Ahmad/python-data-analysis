@@ -66,6 +66,32 @@ print(products_df.dtypes)
 
 products_df["stock_value"] = (products_df["price"] * products_df["quantity"])
 
+total_stock_value = products_df["stock_value"].sum()
+print("Total stock value: ", total_stock_value)
+
+average_product_price = products_df["price"].mean()
+print("Average product price:", round(average_product_price, 2))
+
+stock_value_by_category = products_df.groupby("category")["stock_value"].sum()
+
+print("Stock value by category: ")
+print(stock_value_by_category)
+
+category_summary = products_df.groupby("category").agg(average_price=("price", "mean"), product_count=("name", "count"), total_quantity=("quantity", "sum"))
+
+print("Category summary: ")
+print(category_summary)
+
+highest_price = products_df["price"].max()
+highest_price_index = products_df["price"].idxmax()
+highest_price_product = products_df.loc[highest_price_index]
+
+print("Highest product price: ", highest_price)
+print("highest priced product: ", highest_price_product)
+
+lowest_price = products_df["price"].min()
+print("Lowest product price: ", lowest_price)
+
 print("DataFrame with stock value:")
 print(products_df)
 
