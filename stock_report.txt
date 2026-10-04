@@ -1,0 +1,4 @@
+Laptop: 4499.95
+Mouse: 359.88
+Keyboard: 0.0
+Report generated successfully.

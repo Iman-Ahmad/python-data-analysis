@@ -19,7 +19,22 @@ for index, product in enumerate(products):
 
 
 # -------------------------
-# 2. Conditions
+# 2. File Handling
+# -------------------------
+
+try:
+    with open("products.txt", "r") as file:
+        products_from_file = file.read().splitlines()
+
+    print("Products from file:")
+
+    for product in products_from_file:
+        print(product)
+
+except FileNotFoundError:
+    print("The file was not found") 
+# -------------------------
+# 3. Conditions
 # -------------------------
 
 print("Searching for Laptop:")
@@ -32,7 +47,7 @@ for product in products:
 
 
 # -------------------------
-# 3. Dictionary
+# 4. Dictionary
 # -------------------------
 
 product = {
@@ -52,7 +67,7 @@ print("Updated quantity:", product["quantity"])
 
 
 # -------------------------
-# 4. List of dictionaries
+# 5. List of dictionaries
 # -------------------------
 
 products_data = [
@@ -78,7 +93,7 @@ products_data = [
 
 
 # -------------------------
-# 5. Stock analysis & Functions
+# 6. Stock analysis & Functions
 # -------------------------
 
 def calculate_stock_value(product):
@@ -100,3 +115,20 @@ for product in products_data:
         print(product["name"], "is in stock")
 
 print("Total stock value:", total_stock_value)
+
+# -------------------------
+# 7. Write a stock report
+# -------------------------
+
+with open("stock_report.txt", "w") as file:
+    for product in products_data:
+        stock_value = calculate_stock_value(product)
+
+        file.write(f"{product['name']}: {stock_value}\n")
+
+# -------------------------
+# 8. append to a stock report
+# -------------------------
+
+with open("stock_report.txt", "a") as file:
+    file.write("Report generated successfully.\n")
