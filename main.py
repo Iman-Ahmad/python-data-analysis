@@ -58,6 +58,11 @@ products_df = pd.read_csv("products.csv")
 #print("DataFrame shape: ")
 #print(products_df.shape)
 
+products_df["category"] = products_df["category"].str.strip().str.title()
+
+print("Categories:")
+print(products_df["category"].unique()) 
+
 print("Missing values: ")
 print(products_df.isna().sum())
 

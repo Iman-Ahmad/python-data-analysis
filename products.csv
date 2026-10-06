@@ -1,5 +1,5 @@
 name,category,price,quantity,available
-Laptop,Electronics,899.99,5,True
+Laptop, electronics,899.99,5,True
 Mouse,Electronics,29.99,12,True
 Keyboard,Electronics,59.99,0,False
 Monitor,Electronics,,4,True
