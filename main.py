@@ -17,8 +17,8 @@ products.append("Webcam")
 
 #print("Products with indexes:")
 
-for index, product in enumerate(products):
-    print(index, product)
+#for index, product in enumerate(products):
+#    print(index, product)
 
 # -------------------------
 # 2. File Handling
@@ -63,49 +63,73 @@ products_df["category"] = products_df["category"].str.strip().str.title()
 print("Categories:")
 print(products_df["category"].unique()) 
 
-print("Missing values: ")
-print(products_df.isna().sum())
+### Filling the missing values with electronics median price and removing duplicates
+#print("Missing values: ")
+#print(products_df.isna().sum())
 
-print("Number of duplicate rows: ")
-print(products_df.duplicated().sum())
+#print("Number of duplicate rows: ")
+#print(products_df.duplicated().sum())
 
-print("Duplicate rows: ")
-print(products_df[products_df.duplicated()])
+#print("Duplicate rows: ")
+#print(products_df[products_df.duplicated()])
 
 products_df["price"] = (products_df["price"].astype(str).str.replace(" USD", "", regex=False))
 products_df["price"] = pd.to_numeric(products_df["price"], errors="coerce")
 
 products_df = products_df.drop_duplicates()
-
 electronics_median_price = products_df[products_df["category"] == "Electronics"]["price"].median()
-
 products_df["price"] = products_df["price"].fillna(electronics_median_price)
 
-print("DataFrame after removing duplicates: ")
-print(products_df)
+#print("DataFrame after removing duplicates: ")
+#print(products_df)
 
-print("Number of rows after removing duplicates: ")
-print(len(products_df))
+### "How many units of products are in stock in each Category?"
+### Количество единиц товаров на складе по категориям
+products_quantity_by_category = products_df.groupby("category")["quantity"].sum()
 
-print("Missing values after cleaning:")
-print(products_df.isna().sum())
+print("Quantity of products in each category:")
+print(products_quantity_by_category)
 
-print("Duplicate rows after cleaning:")
-print(products_df.duplicated().sum())
-print(products_df[products_df.duplicated()])
+#### "How many products are there in each Category?"
+### Количество товаров по категориям
+products_count_by_category = products_df.groupby("category")["name"].count()
 
-print("Electronics median price:", electronics_median_price)
+print("Number of products by category:")
+print(products_count_by_category)
+
+### Average product price per Category
+### Средняя цена товара по категориям
+products_average_price_per_category = products_df.groupby("category")["price"].mean()
+
+print("Average products price per category:")
+print(products_average_price_per_category)
+
+### Out-of-stock products
+### Товары, отсутствующие на складе
+print("Out-of-stock products")
+Out_of_stock_products = products_df[products_df["quantity"] == 0]["name"]
+print(Out_of_stock_products.to_list())
+
+#print("Number of rows after removing duplicates: ")
+#print(len(products_df))
+
+#print("Missing values after cleaning:")
+#print(products_df.isna().sum())
+
+#print("Duplicate rows after cleaning:")
+#print(products_df.duplicated().sum())
+#print(products_df[products_df.duplicated()])
 
 electronics_prices = products_df[products_df["category"] == "Electronics"]["price"]
 
-print("Electronics average price: ", electronics_prices.mean())
-print("Electronics median price: ", electronics_prices.median())
+#print("Electronics average price: ", electronics_prices.mean())
+#print("Electronics median price: ", electronics_prices.median())
 
-print("DataFrame after filling missing prices:")
-print(products_df)
+#print("DataFrame after filling missing prices:")
+#print(products_df)
 
-print("Data types: ")
-print(products_df.dtypes)
+#print("Data types: ")
+#print(products_df.dtypes)
 
 #print("Products DataFrame:")
 #print(products_df)
@@ -116,18 +140,38 @@ print(products_df.dtypes)
 #print("Data types:")
 #print(products_df.dtypes)
 
+### Inventory value per product/the stock value per product
+### Стоимость запасов по каждому товару/ стоимость складских запасов по каждому товару
+
 products_df["stock_value"] = (products_df["price"] * products_df["quantity"])
 
+print("Stock value per product: ")
+print(products_df[["name","stock_value"]])
+
 total_stock_value = products_df["stock_value"].sum()
-#print("Total stock value: ", total_stock_value)
+print("Total stock value: ", round(total_stock_value, 2))
+
+
+highest_stock_value_index = products_df["stock_value"].idxmax()
+highest_stock_value_product = products_df.loc[highest_stock_value_index]
+
+print("Product with highest stock value:")
+print(highest_stock_value_product)
 
 average_product_price = products_df["price"].mean()
 #print("Average product price:", round(average_product_price, 2))
 
+### Category with the highest total stock value
+### Категория с наибольшей общей стоимостью запасов
 stock_value_by_category = products_df.groupby("category")["stock_value"].sum()
 
-#print("Stock value by category: ")
-#print(stock_value_by_category)
+print("Stock value by category: ")
+print(stock_value_by_category)
+
+Maximum_stock_value = stock_value_by_category.max()
+
+print("Category with the highest total stock value")
+print(stock_value_by_category[ stock_value_by_category == Maximum_stock_value] )
 
 category_summary = products_df.groupby("category").agg(average_price=("price", "mean"), product_count=("name", "count"), total_quantity=("quantity", "sum"))
 
